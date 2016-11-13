@@ -122,7 +122,7 @@ void CFolderEntry::load()
 	// First - Gets the size of the data
 	if (!CVolumeAccess::getInstance()->readChainedClusters(getFirstClusterInDataChain(),NULL, &dwChainedClustersSizeBytes))
 	{
-		printf("Couldn't load the folder information for \"%s\", Code: 0x%X\n", m_data.DIR_Name, GetLastError());
+		_tprintf_s(_T("Couldn't load the folder information for \"%s\", Code: 0x%X\n"), m_data.DIR_Name, GetLastError());
 	}
 	else if (dwChainedClustersSizeBytes == 0)
 	{
@@ -136,7 +136,7 @@ void CFolderEntry::load()
 		BYTE* bData = new BYTE[dwChainedClustersSizeBytes];
 		if (!CVolumeAccess::getInstance()->readChainedClusters(getFirstClusterInDataChain(),bData, &dwChainedClustersSizeBytes))
 		{
-			printf("Couldn't load the folder's content for \"%s\", Code: 0x%X\n", m_data.DIR_Name, GetLastError());
+			_tprintf_s(_T("Couldn't load the folder's content for \"%s\", Code: 0x%X\n"), m_data.DIR_Name, GetLastError());
 		}
 		else
 		{

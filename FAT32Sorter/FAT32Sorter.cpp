@@ -2,9 +2,10 @@
 //
 #include "stdafx.h"
 #include <time.h>
-#include "General.h"
 #include "CFileSystem.h"
 #include <string>
+#include <fcntl.h>
+#include <corecrt_io.h>
 
 #define DRIVE_CHOOSE 1
 #define DUMP_TABLES 2
@@ -93,6 +94,7 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	TCHAR* defaultDriveLetter = new TCHAR[2];
 	_tcscpy_s(defaultDriveLetter, 2, _T("F"));
+	_setmode(_fileno(stdout), _O_WTEXT);
 
 	CFileSystem fatFileSystem(defaultDriveLetter);
 	

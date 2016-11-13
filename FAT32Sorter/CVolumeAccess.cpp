@@ -101,7 +101,7 @@ bool CVolumeAccess::lockAndDismount()
 
 	if(!bRes )
 	{
-		printf("Error dismounting the volume (Error=0x%X)\n",GetLastError());
+		_tprintf_s(_T("Error dismounting the volume (Error=0x%X)\n"),GetLastError());
 		return false;
 	}
 	else
@@ -109,12 +109,12 @@ bool CVolumeAccess::lockAndDismount()
 		bRes = DeviceIoControl( m_hDevice, FSCTL_LOCK_VOLUME, 0, 0, 0, 0, &dwReturned, 0 );
 		if (!bRes)
 		{
-			printf("Error locking the volume (Error=0x%X)\n",GetLastError());
+			_tprintf_s(_T("Error locking the volume (Error=0x%X)\n"),GetLastError());
 			return false;
 		}
 		else
 		{
-			printf("Done!\n");
+			_tprintf_s(_T("Done!\n"));
 			return true;
 		}
 	}
@@ -128,7 +128,7 @@ void CVolumeAccess::readBootSector()
 
 	if (lRet == INVALID_SET_FILE_POINTER) 
 	{
-		printf("SetPointer FAILED! 0x%X\n", GetLastError());
+		_tprintf_s(_T("SetPointer FAILED! 0x%X\n"), GetLastError());
 	}
 	else
 	{
@@ -139,7 +139,7 @@ void CVolumeAccess::readBootSector()
 		// only in sector multiplications!
 		if (!ReadFile(m_hDevice, lTemp, m_sectorSize, &lBytesRead, NULL))
 		{	
-			printf("Error reading from the file 0x%X\n", GetLastError());
+			_tprintf_s(_T("Error reading from the file 0x%X\n"), GetLastError());
 		}
 
 		memcpy_s(&m_bootSector, sizeof(m_bootSector), lTemp, sizeof(m_bootSector));
@@ -230,7 +230,7 @@ bool CVolumeAccess::readBytesFromDeviceSector(BYTE* aBuffer, DWORD aSizeOfData, 
 		// only in sector multiplications!
 		if (!ReadFile(m_hDevice, aBuffer, aSizeOfData, &lBytesRead, NULL))
 		{	
-			printf("Error reading from the device, Code: 0x%X\n", GetLastError());
+			_tprintf_s(_T("Error reading from the device, Code: 0x%X\n"), GetLastError());
 			return false;
 		}
 		return true;
@@ -260,7 +260,7 @@ bool CVolumeAccess::writeBytesToDeviceSector(BYTE* aBuffer, DWORD aSizeOfData, D
 		// only in sector multiplications!
 		if (!WriteFile(m_hDevice, aBuffer, aSizeOfData, &lBytesRead, NULL))
 		{	
-			printf("Error writing to the device, Code: 0x%X\n", GetLastError());
+			_tprintf_s(_T("Error writing to the device, Code: 0x%X\n"), GetLastError());
 			return false;
 		}
 		return true;
@@ -281,7 +281,7 @@ bool CVolumeAccess::goToSector(DWORD aSectorNum)
 
 	if (lRet == INVALID_SET_FILE_POINTER) 
 	{
-		printf("Failed accesing sector number %d - SetPointer FAILED! 0x%X\n", aSectorNum, GetLastError());
+		_tprintf_s(_T("Failed accesing sector number %d - SetPointer FAILED! 0x%X\n"), aSectorNum, GetLastError());
 		return false;
 	}
 
@@ -397,8 +397,8 @@ void CVolumeAccess::printData(byte* aData, long aSize)
 {
 	for (int i=0;i<aSize;i++)
 	{
-		if (i % 0x10 == 0) printf("\n");
-		printf("0x%2X ", aData[i]);
+		if (i % 0x10 == 0) _tprintf_s(_T("\n"));
+		_tprintf_s(_T("0x%2X "), aData[i]);
 	}
 }
 
